@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>تحدّي العربية – السنة الثالثة متوسط</title>
+<style>
+:root{--bg:#fff7e6;--card:#ffffff;--ink:#23224a;--mute:#6b6a8c;--a:#6c4cf5;--b:#ffb703;--ok:#12b886;--bad:#f0506e;--line:#e8e1ff;--shadow:#6c4cf533}
+@media (prefers-color-scheme:dark){:root{--bg:#161433;--card:#221f4d;--ink:#f4f2ff;--mute:#aaa7d6;--line:#3a3680;--shadow:#00000066}}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:"Cairo","Tajawal","Segoe UI",Tahoma,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0);line-height:1.7}
+.wrap{max-width:680px;margin:0 auto;padding:18px 16px 40px}
+h1{font-size:clamp(1.8rem,7vw,2.6rem);margin:8px 0 4px;line-height:1.25}
+h1 .logo{display:inline-block;animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-6px) rotate(-6deg)}}
+.sub{color:var(--mute);margin:0 0 20px}
+.menu{display:grid;gap:14px}
+.topic{display:flex;align-items:center;gap:14px;background:var(--card);border:3px solid var(--line);border-radius:22px;padding:16px;cursor:pointer;font:inherit;color:inherit;text-align:right;width:100%;box-shadow:0 6px 0 var(--shadow);transition:transform .15s}
+.topic:hover,.topic:focus-visible{transform:translateY(-3px);outline:3px solid var(--a)}
+.topic .em{font-size:2.4rem;width:64px;height:64px;border-radius:18px;display:grid;place-items:center;flex:none}
+.topic b{display:block;font-size:1.15rem}
+.topic small{color:var(--mute)}
+.best{margin-inline-start:auto;font-size:.9rem;white-space:nowrap}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.back{border:0;background:var(--card);border-radius:14px;padding:8px 14px;font:inherit;color:var(--ink);cursor:pointer;border:2px solid var(--line)}
+.bar{flex:1;height:16px;background:var(--line);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--b),var(--a));border-radius:99px;transition:width .4s}
+.pts{font-weight:800;white-space:nowrap}
+.card{background:var(--card);border:3px solid var(--line);border-radius:26px;padding:20px;box-shadow:0 8px 0 var(--shadow)}
+.tag{display:inline-block;background:var(--b);color:#3a2a00;border-radius:99px;padding:2px 12px;font-size:.85rem;font-weight:700}
+.q{font-size:1.25rem;font-weight:800;margin:10px 0 16px}
+.ctx{background:var(--bg);border-inline-start:6px solid var(--a);border-radius:12px;padding:8px 12px;margin:0 0 14px;font-size:1.05rem}
+.opts{display:grid;gap:10px}
+.opt{font:inherit;font-size:1.05rem;color:var(--ink);background:var(--card);border:3px solid var(--line);border-radius:16px;padding:12px 14px;text-align:right;cursor:pointer;transition:transform .12s,background .2s}
+.opt:hover:not(:disabled),.opt:focus-visible{border-color:var(--a);transform:scale(1.015);outline:none}
+.opt:disabled{cursor:default}
+.opt.ok{background:var(--ok);border-color:var(--ok);color:#fff;animation:pop .35s}
+.opt.no{background:var(--bad);border-color:var(--bad);color:#fff;animation:shake .35s}
+@keyframes pop{50%{transform:scale(1.04)}}
+@keyframes shake{25%{transform:translateX(7px)}75%{transform:translateX(-7px)}}
+.fb{margin-top:14px;padding:12px 14px;border-radius:16px;font-weight:600;display:none}
+.fb.show{display:block}
+.fb.g{background:#12b88622;color:var(--ok)}.fb.r{background:#f0506e22;color:var(--bad)}
+.fb span{color:var(--ink);font-weight:500;display:block}
+.next{margin-top:16px;width:100%;border:0;border-radius:16px;padding:14px;font:inherit;font-size:1.1rem;font-weight:800;background:var(--a);color:#fff;cursor:pointer;box-shadow:0 5px 0 #4a30c4;display:none}
+.next:active{transform:translateY(3px);box-shadow:0 2px 0 #4a30c4}
+.next.show{display:block}
+.end{text-align:center}
+.stars{font-size:3rem;letter-spacing:6px}
+.big{font-size:3.4rem;font-weight:800;color:var(--a)}
+.row{display:flex;gap:10px;margin-top:18px}
+.row button{flex:1}
+.ghost{background:var(--card);color:var(--ink)!important;border:3px solid var(--line)!important;box-shadow:none!important}
+.hide{display:none}
+canvas{position:fixed;inset:0;pointer-events:none;width:100%;height:100%}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+footer{text-align:center;color:var(--mute);font-size:.85rem;margin-top:26px}
+</style>
+</head>
+<body>
+<canvas id="cv"></canvas>
+<div class="wrap">
+ <section id="home">
+  <h1><span class="logo">🦉</span> تحدّي العربية</h1>
+  <p class="sub">السنة الثالثة متوسط · اختر سنداً وابدأ التحدّي، واجمع النجوم!</p>
+  <div class="menu" id="menu"></div>
+  <footer>مبني على نماذج فروض الثلاثي الأول · الأسئلة للمراجعة والتدرّب</footer>
+ </section>
+ <section id="play" class="hide">
+  <div class="top"><button class="back" id="back">رجوع</button><div class="bar"><i id="bar"></i></div><div class="pts" id="pts">⭐ 0</div></div>
+  <div class="card" id="qc"></div>
+ </section>
+</div>
+<script>
+const T=[
+{id:"fb",em:"📱",c:"#e0d7ff",name:"سند الفيسبوك",desc:"وسائل التواصل الاجتماعي وأثرها على الطفل",q:[
+["اختر عنواناً مناسباً للسند:",["مخاطر الفيسبوك","فوائد الرياضة","رحلة إلى الصحراء","تاريخ الطباعة"],0,"السند يُبرز تأثيرات الفيسبوك السلبية على الأسرة والفرد."],
+["أيّ ممّا يلي إيجابية لوسائل التواصل الاجتماعي؟",["الشعور بالعزلة","حرية التعبير","قلة التفاعل الأسري","الإحباط"],1,"من الإيجابيات: حرية التعبير، والتعارف خارج الوطن، والوصول إلى المعلومة في حينها."],
+["أيّ ممّا يلي تأثير سلبي على العلاقات الأسرية؟",["يقلّ التفاعل بين أفراد الأسرة","يزداد التعاون","تتحسّن الحوارات","يقوى الترابط"],0,"الدراسة بيّنت أن التفاعل بين أفراد الأسرة يقلّ."],
+["مرادف كلمة «المشتَّت» هو:",["المجتمع","المفرَّق","الواضح","المنظّم"],1,"المشتَّت = المفرَّق / المبدَّد / المنتشر."],
+["ضدّ كلمة «العزلة» هو:",["الوحدة","الاختلاط","الإحباط","الكآبة"],1,"العزلة ≠ الاختلاط (المخالطة)."],
+["إعراب «قفزةً» في: «قفز العالم قفزةً نوعية»:",["مفعول به منصوب","حال منصوب","مفعول مطلق منصوب","فاعل مرفوع"],2,"قفزةً: مفعول مطلق منصوب وعلامة نصبه الفتحة الظاهرة على آخره."],
+["إعراب «التفاعلُ» في: «يقلُّ التفاعلُ بين أفراد الأسرة»:",["مبتدأ مرفوع","مفعول به منصوب","فاعل مرفوع","خبر مرفوع"],2,"التفاعلُ: فاعل مرفوع وعلامة رفعه الضمّة الظاهرة على آخره."],
+["«قفز العالم قفزةً» صورة بيانية، نوعها:",["تشبيه تامّ","استعارة مكنية","كناية","استعارة تصريحية"],1,"شُبّه العالم بالإنسان الذي يقفز، وحُذف المشبّه به (الإنسان) وبقي لازم من لوازمه (القفز)."],
+["المحسّن البديعي في «إيجابيات وسلبيات» هو:",["جناس","سجع","طباق","مقابلة"],2,"طباق إيجاب: كلمتان متضادّتان (إيجابيات ≠ سلبيات)."],
+["النمط الغالب على السند:",["حواري","سردي","تفسيري","وصفي"],2,"مؤشراته: غلبة الأفعال المضارعة، وأدوات الربط، والأسلوب الخبري، وضمائر الغائب."],
+["«وَالَّذِي نَفْسِي بِيَدِهِ» أسلوب إنشائي، وهو:",["أمر","نهي","قسم (إنشائي غير طلبي)","استفهام"],2,"القسم أسلوب إنشائي غير طلبي."],
+["الفعل الماضي المبني على الفتح في: «قال رسول الله ﷺ: لَيُوشِكَنَّ أن ينزل فيكم ابن مريم»:",["لَيُوشِكَنَّ","قال","ينزل","فيكم"],1,"قال: فعل ماضٍ مبني على الفتح الظاهر على آخره. أمّا ليوشكنّ فمضارع مبني على الفتح لاتصاله بنون التوكيد."]
+]},
+{id:"dr",em:"🚫",c:"#ffd9de",name:"سند المخدرات",desc:"الإدمان وأضراره على الفرد والمجتمع",q:[
+["أيّ فكرة عامة تناسب السند؟",["أضرار المخدرات وخطر الإدمان","فوائد القراءة","أهمية الرياضة","الاحتباس الحراري"],0,"السند يعرض أضرار الإدمان الجسمانية والنفسية والاجتماعية."],
+["مرادف كلمة «محظور» هو:",["مسموح","ممنوع","مفتوح","مشهور"],1,"محظور = ممنوع."],
+["مرادف كلمة «عدواني» هو:",["هادئ","طيّب","عنيف","حزين"],2,"عدواني = عنيف."],
+["إعراب «راغمين» في: «فتدفعهم راغمين إلى الموت»:",["حال منصوب وعلامة نصبه الياء","فاعل مرفوع","مفعول به منصوب بالفتحة","نعت مجرور"],0,"راغمين: حال منصوب وعلامة نصبه الياء لأنه جمع مذكر سالم."],
+["«كما يموت التيس الأجرب» صورة بيانية، نوعها:",["استعارة مكنية","كناية","تشبيه","مجاز مرسل"],2,"فيها مشبّه (المدمن) ومشبّه به (التيس الأجرب) وأداة (كما)."],
+["الجملة (تمسّ كلّ المجتمعات) بعد «أصبحت» وظيفتها الإعرابية:",["في محل رفع خبر","في محل نصب خبر أصبح","لا محل لها","في محل جر"],1,"هي جملة فعلية في محل نصب خبر «أصبح»."],
+["الجملة (يُدفع بالمتعاطي إلى الهلاك) بعد «إنّ الإدمان» وظيفتها:",["في محل رفع خبر إنّ","في محل نصب حال","لا محل لها من الإعراب","في محل جزم"],0,"هي جملة فعلية في محل رفع خبر «إنّ»."],
+["العبارة بين المعقوفتين [ ] في آخر السند «[عن الإنترنت]» تدلّ على:",["التعجّب","ذكر المصدر المنقول عنه","الاستفهام","نقل كلام شخص"],1,"المعقوفتان تُحصران فيهما معلومة إضافية كالمصدر."]
+]},
+{id:"me",em:"📰",c:"#d3f5e6",name:"سند الإعلام والفساد",desc:"الإعلام بين كشف الفساد وممارسته",q:[
+["الفكرة العامة للنص:",["العلاقة المعقّدة بين الإعلام والفساد","فنّ الطبخ","أهمية الرياضة","اختراع التلفاز"],0,"النص يوازن بين إعلام يكشف الفساد وإعلام يمارسه."],
+["مرادف كلمة «تحريف» في النص:",["تدليس","تعتيم","وعي","مكاسب"],0,"تحريف = تدليس الوقائع."],
+["ضدّ كلمة «الشفافية» في النص:",["الصدق","التعتيم","الوعي","النزاهة"],1,"الشفافية ≠ التعتيم المتعمَّد."],
+["«اختبأت الحقيقة خلف الكواليس كطفل خائف» فيها:",["تشبيه واستعارة مكنية","طباق فقط","جناس فقط","كناية فقط"],0,"الحقيقة شُبّهت بإنسان يختبئ (استعارة مكنية)، ثم شُبّهت بطفل خائف (تشبيه)."],
+["«من» في «ينقلب من سلطة نزيهة إلى طرف متواطئ» تفيد:",["التبعيض","ابتداء الغاية","التعليل","البدل"],1,"من: حرف جر يفيد ابتداء الغاية."],
+["أيّ جملة جاء فيها المضارع «تدفن» مبنياً على الفتح؟",["لن تُدفنَ الحقيقة","لَتُدفَنَنَّ الحقيقة","الحقيقة تُدفنُ","لم تُدفنْ الحقيقة"],1,"المضارع المتصل بنون التوكيد المباشرة يُبنى على الفتح: لَتُدفَنَنَّ."],
+["حسب النص، أين تكمن الإجابة عن سؤال «كيف نميّز بين الإعلام الكاشف للفساد والممارس له؟»",["في وعي المتلقي وقدرته على النقد والتحليل","في إغلاق القنوات","في كثرة الإعلانات","في تجاهل الأخبار"],0,"الوعي النقدي هو آخر خطوط الدفاع عن الحقيقة."]
+]}
+];
+const $=s=>document.querySelector(s);
+const sv=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
+const ld=k=>{try{return localStorage.getItem(k)}catch(e){return null}};
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+function menu(){
+ $("#menu").innerHTML=T.map((t,i)=>{const b=ld("best-"+t.id);return `<button class="topic" data-i="${i}"><span class="em" style="background:${t.c}">${t.em}</span><span><b>${t.name}</b><small>${t.desc} · ${t.q.length} سؤالاً</small></span><span class="best">${b?"🏆 "+b+"/"+t.q.length:""}</span></button>`}).join("");
+ document.querySelectorAll(".topic").forEach(b=>b.onclick=()=>start(+b.dataset.i));
+}
+let cur,qs,n,score,streak;
+function start(i){cur=T[i];qs=shuffle(cur.q);n=0;score=0;streak=0;$("#home").classList.add("hide");$("#play").classList.remove("hide");show()}
+function show(){
+ if(n>=qs.length)return end();
+ const [q,o,a,e]=qs[n];
+ const opts=shuffle(o.map((t,i)=>[t,i===a]));
+ $("#bar").style.width=(n/qs.length*100)+"%";
+ $("#pts").textContent="⭐ "+score;
+ $("#qc").innerHTML=`<span class="tag">${cur.em} ${cur.name} · ${n+1}/${qs.length}</span><div class="q">${q}</div><div class="opts">${opts.map((x,i)=>`<button class="opt" data-r="${x[1]?1:0}">${x[0]}</button>`).join("")}</div><div class="fb" id="fb"></div><button class="next" id="nx">${n+1<qs.length?"السؤال التالي ⬅":"اعرض النتيجة 🎉"}</button>`;
+ document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>pick(b,e));
+ $("#nx").onclick=()=>{n++;show()};
+}
+const good=["أحسنت! 🎉","رائع! 🌟","ممتاز! 💪","عبقري! 🧠"];
+function pick(b,e){
+ const ok=b.dataset.r==="1";
+ document.querySelectorAll(".opt").forEach(x=>{x.disabled=true;if(x.dataset.r==="1")x.classList.add("ok")});
+ const f=$("#fb");
+ if(ok){score++;streak++;f.className="fb show g";f.innerHTML=good[Math.random()*4|0]+(streak>2?` ${streak} إجابات متتالية! 🔥`:"")+`<span>${e}</span>`;boom(30)}
+ else{streak=0;b.classList.add("no");f.className="fb show r";f.innerHTML=`ليست هذه، لا بأس! 💡<span>${e}</span>`}
+ $("#pts").textContent="⭐ "+score;
+ $("#nx").classList.add("show");$("#nx").focus();
+}
+function end(){
+ $("#bar").style.width="100%";
+ const p=score/qs.length,s=p>=.85?3:p>=.55?2:p>=.3?1:0;
+ const best=+ld("best-"+cur.id)||0;if(score>best)sv("best-"+cur.id,score);
+ const msg=s==3?"بطل العربية! 🏆":s==2?"أداء جميل، اقتربتَ من القمة!":s==1?"بداية جيدة، أعد المحاولة وستتحسّن!":"لا بأس، التعلّم رحلة. حاول مجدداً!";
+ $("#qc").innerHTML=`<div class="end"><div class="stars">${"⭐".repeat(s)}${"☆".repeat(3-s)}</div><div class="big">${score} / ${qs.length}</div><p><b>${msg}</b></p><div class="row"><button class="next show ghost" id="again">أعد التحدّي 🔁</button><button class="next show" id="hm">القائمة 🏠</button></div></div>`;
+ $("#again").onclick=()=>start(T.indexOf(cur));$("#hm").onclick=home;
+ if(s>1)boom(160);
+}
+function home(){$("#play").classList.add("hide");$("#home").classList.remove("hide");menu()}
+$("#back").onclick=home;
+/* confetti */
+const cv=$("#cv"),cx=cv.getContext("2d");let ps=[],raf=0;
+function fit(){cv.width=innerWidth;cv.height=innerHeight}addEventListener("resize",fit);fit();
+function boom(k){
+ if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+ const cs=["#6c4cf5","#ffb703","#12b886","#f0506e","#4cc9f0"];
+ for(let i=0;i<k;i++)ps.push({x:innerWidth/2,y:innerHeight*.45,vx:(Math.random()-.5)*12,vy:-Math.random()*11-3,r:Math.random()*6+3,c:cs[i%5],l:70+Math.random()*30});
+ if(!raf)raf=requestAnimationFrame(tick);
+}
+function tick(){
+ cx.clearRect(0,0,cv.width,cv.height);
+ ps=ps.filter(p=>p.l-->0);
+ ps.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.35;cx.fillStyle=p.c;cx.fillRect(p.x,p.y,p.r,p.r*1.6)});
+ raf=ps.length?requestAnimationFrame(tick):0;
+}
+menu();
+</script>
+</body>
+</html>
